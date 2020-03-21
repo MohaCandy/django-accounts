@@ -8,6 +8,14 @@ from .models import Customer, Order, Product, Tag
 from .filters import OrderFilter, CustomerFilter
 # Create your views here.
 
+def loginPage(request):
+
+    return render(request, 'accounts/login.html')
+
+def registerPage(request):
+
+    return render(request, 'accounts/register.html')
+
 def home(request):
     customers = Customer.objects.all()
     orders = Order.objects.all()
