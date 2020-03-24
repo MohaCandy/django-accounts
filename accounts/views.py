@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.forms import inlineformset_factory
-from .forms import OrderForm
+from .forms import OrderForm, CreateUserForm
 from django.contrib.auth.forms import UserCreationForm
 
 from .models import Customer, Order, Product, Tag
@@ -13,8 +13,15 @@ def loginPage(request):
     return render(request, 'accounts/login.html')
 
 def registerPage(request):
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid:
+            form.save()
+            return redirect('/')
 
-    return render(request, 'accounts/register.html')
+    context = {'form': form}
+    return render(request, 'accounts/register.html', context)
 
 def home(request):
     customers = Customer.objects.all()
